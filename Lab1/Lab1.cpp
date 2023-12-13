@@ -2,15 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "Tru"
 using namespace std;
-
-struct Truba // new data type
-{
-    string name;
-    double lenght;
-    double diam;
-    bool repair = true;
-};
 
 struct CS 
 {
@@ -19,19 +12,6 @@ struct CS
     int workshops;
     int work_workshops;
 };
-
-//template <typename T>
-//T GetCorrectNumber(T min, T max)
-//{
-//    T x;
-//    while ((cin >> x).fail() || x < min || x > max)
-//    {
-//        cin.clear(); // чистим поток
-//        cin.ignore(10000, '\n'); // сбрасываем данные которые уже ввели в поток
-//        cout << "Type number (" << min <<  "-" << max <<"):";
-//    }
-//    return x;
-//}
 
 template <typename T>
 T GetCorrectNumber(T min, T max)
@@ -60,19 +40,17 @@ bool IsWorkshopsCorrect(int d)
 Truba LoadTruba(ifstream& fin) // поток ввода в файл
 {
     Truba t;
-    
     fin >> t.name;
     fin >> t.lenght;
     fin >> t.diam;
     fin >> t.repair;
-    
     return t;
 }
 
 void SaveTruba(ofstream& fout, const Truba& t) // const - константные данные, данные не меняются
 {
     fout << t.name << endl <<  t.lenght << endl
-            << t.diam << endl << t.repair;
+            << t.diam << endl << t.repair << endl;
 }
 
 CS LoadCS() // поток ввода в файл
@@ -193,18 +171,18 @@ ostream& operator << (ostream& out, const CS& s)
 }
 ostream& operator << (ostream& out, const Truba& t)
 {
-    out << "Name: " << t.name << endl;
-    out << "Lenght: " << t.lenght
+    out << "Name: " << t.name 
+        << "\tLenght: " << t.lenght
         << "\tDiam: " << t.diam
         << "\tRepair status: ";
     if (t.repair)
     {
-        cout << "Not in repearing\n";
+        cout << "Not in repearing\n" << endl;
     }
     else
     {
-        cout << "In repearing\n";
-    };
+        cout << "In repearing\n" << endl;
+    } 
     return out;
 }
 
@@ -241,19 +219,20 @@ istream& operator >> (istream& in, Truba& t)
 Truba& SelectTruba(vector<Truba>& g)
 {
     cout << "Enter index of Pipe: ";
-    unsigned int index = GetCorrectNumber<uint64_t>(1u, g.size());
+    unsigned int index = GetCorrectNumber<uint64_t>(1, g.size());
     return g[index - 1];
 }
 
-CS& SelectCS(vector<CS>& g)
+CS& SelectCS(vector<CS>& k)
 {
     cout << "Enter index of CS: ";
-    unsigned int index = GetCorrectNumber<uint64_t>(1u, g.size());
-    return g[index - 1];
+    unsigned int index = GetCorrectNumber<uint64_t>(1, k.size());
+    return k[index - 1];
 }
 
 int main()
 {
+    system("cls");
     vector <Truba> group;
     vector <CS> group1;
     while (1) // бесконечный цикл 
@@ -270,19 +249,22 @@ int main()
         }
         case 2:
         {
-            for (auto& st : group)
-                cout << st << endl;
+            for (auto& tr : group)
+                cout << tr << endl;
             break;
         }
         case 3:
         {
+            system("cls");
             ofstream fout;
             fout.open("data.txt", ios::out);
             if (fout.is_open())
             {
                 fout << group.size() << endl;
-                for (Truba tr : group)
+                for (Truba& tr : group)
+                {
                     SaveTruba(fout, tr);
+                }
                 fout.close();
             }
             break;
@@ -295,8 +277,10 @@ int main()
             {
                 int count;
                 fin >> count;
-                while (count --)
+                while (count--)
+                {
                     group.push_back(LoadTruba(fin));
+                }
                 fin.close();
             }
             break;
