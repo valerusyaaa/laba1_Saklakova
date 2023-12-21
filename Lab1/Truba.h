@@ -6,6 +6,8 @@
 class Truba
 {
     int id;
+    friend std::ostream& operator << (std::ostream& out, const Truba& t);
+    friend std::istream& operator >> (std::istream& in, Truba& t);
 public:
     static int MaxID; // статическое поле общее для всех объектов класса
     std::string name;
@@ -13,16 +15,11 @@ public:
     double diam;
     bool repair = true;
 
-    Truba(); //конструктор по умолчанию
-    //Truba(std::string name);
-    //Truba(const Truba& t);
-    //Truba(Truba&& t);
-    //~Truba(); //деструктор
-    //std::string GetName() const;
-    //void SetName(std::string);
+    Truba(); 
 
-    friend std::ostream& operator << (std::ostream& out, const Truba& t);
-    friend std::istream& operator >> (std::istream& in, Truba& t);
+    int get_idPipe() const { return id; };
+
+    
 
 };
 

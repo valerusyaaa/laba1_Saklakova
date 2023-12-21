@@ -6,50 +6,25 @@ int Truba::MaxID = 0;
 
 Truba::Truba()
 {
-	cout << "Truba::Truba()" << endl;
+	//cout << "Truba::Truba()" << endl;
+    name = "Unknown";
     id = MaxID++;
-	lenght = 100-id;
-	name = "Unknown";
+	lenght = 1000-id;
+    diam = 200;
+    repair = false;
 }
-//
-//Truba::Truba(std::string name)
-//{
-//	this -> name = name;
-//	
-//}
-//
-//Truba::Truba(const Truba& t)
-//{
-//	cout << "Truba::Truba(const Truba& t)" << endl;
-//}
-//
-//Truba::Truba(Truba&& t) // конструктор перемещения
-//{
-//	cout << "Truba::Truba(Truba&& t)" << endl;
-//}
-//
-//Truba::~Truba() // освобождаем ресурсы
-//{
-//	cout << "Truba::~Truba()" << endl;
-//}
 
-//std::string Truba::GetName() const
-//{
-//	return name;
-//}
-//
-//void Truba::SetName(std::string new_name)
-//{
-//	name = new_name;
-//}
-
-ostream& operator<<(std::ostream& out, const Truba& t)
+ostream& operator<<(ostream& out, const Truba& t)
 {
-        out << "MaxID: " << Truba::MaxID
-            << "Id: " << t.id
-            << "\tLenght: " << t.lenght
-            << "\tDiam: " << t.diam
-            << "\tRepair status: ";
+        PRINT_PARAM(cout, t.id);
+        PRINT_PARAM(cout, t.name);
+        PRINT_PARAM(cout, t.lenght);
+        PRINT_PARAM(cout, t.diam);
+        //out << "MaxID: " << Truba::MaxID
+        //    << "Id: " << t.id
+        //    << "\tLenght: " << t.lenght
+        //    << "\tDiam: " << t.diam
+        //    << "\tRepair status: ";
         if (t.repair)
         {
             cout << "Not in repearing\n" << endl;
@@ -65,7 +40,7 @@ ostream& operator<<(std::ostream& out, const Truba& t)
 std::istream& operator>>(std::istream& in, Truba& t)
 {
     cout << "Add the name of pipe: ";
-    in >> t.name;
+    INPUT_LINE(in, t.name);
 
     cout << "Add the lenght (up to 30000 m): ";
     t.lenght = GetCorrectNumber(0.0, 30000.0);
@@ -74,5 +49,4 @@ std::istream& operator>>(std::istream& in, Truba& t)
     t.diam = GetCorrectNumber(114.0, 1500.0);
 
     return in;
-    // TODO: вставьте здесь оператор return
 }
